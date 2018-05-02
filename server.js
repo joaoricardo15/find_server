@@ -1,7 +1,8 @@
 var express = require('express')
   , bodyParser = require('body-parser')
   , app = express()
-  , geoLocations = [];
+  , geoLocations = []
+  , env = { Local: 0, Azure: 1 };
 
 app.use(express.static('www'));
 app.use(bodyParser.json());
