@@ -1,18 +1,17 @@
-var express = require('express')
-  , bodyParser = require('body-parser')
+var bodyParser = require('body-parser')
+  , express = require('express')
+  , env = { Local: 0, Azure: 1 }
+  , envMode = env.Azure
   , app = express()
-  , geoLocations = []
-  , env = { Local: 0, Azure: 1 };
+  , positions = []
+  , port;
 
-app.use(express.static('www'));
 app.use(bodyParser.json());
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });    
-
-var positions = [];
 
 app.post('/positions', function(req, res) {
     
@@ -37,14 +36,12 @@ app.delete('/positions', function(req, res) {
     res.send("ok");
 });
 
-var port;
-var envMode = env.Azure;
 process.argv.forEach((val, index, array) => {
-  if (val === 'local') {
-    envMode = env.Local;
-  }
+    if (val === 'local') {
+        envMode = env.Local;
+    }
 });
-
+  
 if (envMode === env.Local)
     port = 80;
 else
