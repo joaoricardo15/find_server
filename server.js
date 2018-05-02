@@ -1,7 +1,6 @@
 var express = require('express')
   , bodyParser = require('body-parser')
   , app = express()
-  , port = 80
   , geoLocations = [];
 
 app.use(express.static('www'));
@@ -36,6 +35,19 @@ app.delete('/positions', function(req, res) {
     positions = [];
     res.send("ok");
 });
+
+var port;
+var envMode = env.Azure;
+process.argv.forEach((val, index, array) => {
+  if (val === 'local') {
+    envMode = env.Local;
+  }
+});
+
+if (envMode === env.Local)
+    port = 80;
+else
+    port = process.env.PORT;
 
 app.listen(port, function (error) {
     if(!error)
