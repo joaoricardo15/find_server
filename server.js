@@ -13,6 +13,10 @@ app.use(function(req, res, next) {
     next();
 });    
 
+app.get('/', function(req, res) {
+    res.send("find server working fine!!!");
+});
+
 app.post('/positions', function(req, res) {
     
     var index = positions.findIndex(position => position.id === req.body["id"]);
